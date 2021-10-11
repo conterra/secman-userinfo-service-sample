@@ -12,7 +12,8 @@
         "watch": "npm-run-all --parallel watch:*",
         "check-types": "tsc --noEmit",
         "lint": "eslint \"./{src,test,support}/**/*.ts\"",
-        "prettier": "prettier \"./{src,test,support}/**/*.ts\" --write"
+        "prettier": "prettier \"./{src,test,support}/**/*.ts\" --write",
+        "check-license": "license-checker --production --json --out ./dist/license.json"
     },
     "keywords": [
         "security.manager"
@@ -38,6 +39,7 @@
         "@rollup/plugin-commonjs": "^20.0.0",
         "@rollup/plugin-node-resolve": "^13.0.4",
         "rollup-plugin-preserve-shebang": "^1.0.1",
-        "typescript": "~4.4.3"
+        "typescript": "~4.4.3",
+        "license-checker": "^25.0.1"
     }
 }
