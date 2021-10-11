@@ -1,0 +1,10 @@
+{
+    "enabled": true,
+    "url": "ldap://myorg.example.com:389",
+    "user": "",
+    "password": "",
+    "userBaseDn": "OU=Users,OU=myorg,DC=example,DC=com",
+    "userSearchPattern": "(uid=${userid})",
+    "roleAttribute": "member",
+    "userAttributes": null
+}

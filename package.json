@@ -1,0 +1,44 @@
+{
+    "name": "secman-userinfo-service-sample",
+    "version": "1.0.0",
+    "description": "Sample implemenation for sec.man UserInfoService",
+    "scripts": {
+        "clean": "rimraf build dist",
+        "build": "rollup -c --environment NODE_ENV:production",
+        "full-build": "npm-run-all clean check-types lint build install-dist",
+        "install-dist": "(cd dist && npm install --production)",
+        "watch:build": "rollup -cw --environment NODE_ENV:development --no-watch.clearScreen",
+        "watch:types": "tsc -w --noEmit --preserveWatchOutput",
+        "watch": "npm-run-all --parallel watch:*",
+        "check-types": "tsc --noEmit",
+        "lint": "eslint \"./{src,test,support}/**/*.ts\"",
+        "prettier": "prettier \"./{src,test,support}/**/*.ts\" --write"
+    },
+    "keywords": [
+        "security.manager"
+    ],
+    "author": "con terra GmbH",
+    "license": "Apache-2.0",
+    "dependencies": {
+        "ldapjs": "~2.3.1",
+        "dtrace-provider": "^0.8.8"
+    },
+    "devDependencies": {
+        "@types/node": "^14.14.41",
+        "@types/rimraf": "^3.0.2",
+        "@types/ldapjs": "~2.2.1",
+        "eslint": "^7.32.0",
+        "eslint-config-ct-prodeng": "~1.1.17",
+        "eslint-plugin-header": "^3.1.1",
+        "npm-run-all": "^4.1.5",
+        "prettier": "^2.4.0",
+        "rimraf": "^3.0.2",
+        "rollup": "^2.56.3",
+        "rollup-plugin-copy": "^3.4.0",
+        "@rollup/plugin-typescript": "^8.2.5",
+        "@rollup/plugin-commonjs": "^20.0.0",
+        "@rollup/plugin-node-resolve": "^13.0.4",
+        "rollup-plugin-preserve-shebang": "^1.0.1",
+        "typescript": "~4.4.3"
+    }
+}

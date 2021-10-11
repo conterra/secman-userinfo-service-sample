@@ -1,0 +1,25 @@
+{
+    "enabled": true,
+    "users": {
+        "a-user-id": {
+            "ProjectId": [
+                "a",
+                "b"
+            ],
+            "roles": [
+                "fancyExtraRole"
+            ]
+        }
+    },
+    "roles": {
+        "a-role": {
+            "ProjectId": [
+                "a",
+                "b"
+            ],
+            "roles": [
+                "fancyExtraRole"
+            ]
+        }
+    }
+}

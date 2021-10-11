@@ -1,0 +1,22 @@
+{
+    "extends": "eslint-config-ct-prodeng",
+    "plugins": [
+        "header"
+    ],
+    "overrides": [
+        {
+            "files": [
+                "*.ts",
+                "*.js"
+            ],
+            "rules": {
+                "no-undef": "off",
+                "header/header": [
+                    2,
+                    "block",
+                    "\n * Copyright (C) con terra GmbH\n "
+                ]
+            }
+        }
+    ]
+}

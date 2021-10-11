@@ -1,0 +1,12 @@
+/dist/
+/node_modules/
+/.idea/
+/.vscode/
+/.nyc_output/
+/coverage/
+/.settings/
+/.project
+workspace.code-workspace
+*.iml
+.npmrc
+package-lock.json
