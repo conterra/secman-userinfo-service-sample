@@ -53,7 +53,7 @@ POST the following content to the service at `/userinfo-ldap/fetch` in order to 
 Replace the value of the property `userId` by a valid ldap user.
 
 ```json
-//POST as "application/json":
+POST as "application/json":
 {
     "anonymous": false,
     "userId": "my.user",
@@ -69,8 +69,7 @@ You should get back something like:
         "cn": "my.user",
         "sn": "Test User",
         "roles": [
-            "my-role",
-            ...
+            "my-role"
         ]
     }
 }
@@ -91,7 +90,7 @@ It takes following precedence:
 
 The structure of the file is like:
 
-```json
+```jsonc
 {
     // enable or disable the provider
     "enabled": true,
@@ -131,7 +130,7 @@ The user and password can be provided by the environment properties `LDAP_USER` 
 
 The structure of the file is like:
 
-```json
+```jsonc
 {
     // enable/disable the provider
     "enabled": true,

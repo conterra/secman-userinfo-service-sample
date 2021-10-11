@@ -20,8 +20,7 @@
     "author": "con terra GmbH",
     "license": "Apache-2.0",
     "dependencies": {
-        "ldapjs": "~2.3.1",
-        "dtrace-provider": "^0.8.8"
+        "ldapjs": "~2.3.1"
     },
     "devDependencies": {
         "@types/node": "^14.14.41",
