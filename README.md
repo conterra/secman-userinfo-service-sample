@@ -159,6 +159,14 @@ The structure of the file is like:
 }
 ```
 
+### Access Token (optional)
+
+If the environment property `ACCESS_TOKEN` is defined during start of the service then a client needs to send the http header 'Authorization' in order to access the service endpoints.
+
+```plain
+Authorization: Bearer <access-token>
+```
+
 ## Build and Run
 
 Execute a build as follows:
