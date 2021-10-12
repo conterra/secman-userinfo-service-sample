@@ -48,7 +48,7 @@ export class UserInfoServer {
                 return;
             }
 
-            if (this.accessToken && request.headers["Authorization"] !== `Bearer ${this.accessToken}`) {
+            if (this.accessToken && request.headers["authorization"] !== `Bearer ${this.accessToken}`) {
                 response.writeHead(401, {
                     "Content-Type": "application/json",
                     "WWW-Authenticate": "Bearer"
