@@ -12,7 +12,8 @@ export class UserInfoServer {
     constructor(
         private port: number,
         private providers: AttributeProvider[] = [],
-        private contextPath = "userinfo") {
+        private contextPath = "userinfo",
+        private accessToken = "") {
     }
 
     start(): void {
@@ -44,6 +45,15 @@ export class UserInfoServer {
 
             if (request.method !== "POST") {
                 this.writeError(response, 405, "Method not allowed. Use POST instead.");
+                return;
+            }
+
+            if (this.accessToken && request.headers["Authorization"] !== `Bearer ${this.accessToken}`) {
+                response.writeHead(401, {
+                    "Content-Type": "application/json",
+                    "WWW-Authenticate": "Bearer"
+                });
+                response.end(JSON.stringify({ error: "Token required" }));
                 return;
             }
 

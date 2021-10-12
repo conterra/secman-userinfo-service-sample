@@ -12,6 +12,7 @@ import { exit } from "process";
 
 const serverPort = Number(process.env.HTTP_PORT ?? "9090");
 const contextPath = process.env.CONTEXT_PATH ?? "userinfo";
+const accessToken = process.env.ACCESS_TOKEN ?? "";
 
 const attributeProviders: AttributeProvider[] = [];
 
@@ -32,22 +33,21 @@ if (!attributeProviders.length) {
     exit(1);
 }
 
-const userinfoServer = new UserInfoServer(serverPort, attributeProviders, contextPath);
+const userinfoServer = new UserInfoServer(serverPort, attributeProviders, contextPath, accessToken);
 userinfoServer.start();
 
-//process.stdin.resume();//so the program will not close instantly
-
 // Cleanup / stop Server on process exit
-function exitHandler(options: { server: UserInfoServer, exit?: boolean, cleanup?: boolean }) {
+function exitHandler() {
     userinfoServer.stop();
     for (const provider of attributeProviders) {
         provider.dispose?.();
     }
-    if (options.exit) process.exit();
+    //if (options.exit) process.exit();
 }
 
 //do something when app is closing
-process.on('exit', exitHandler.bind(null, { server: userinfoServer }));
+process.on('exit', exitHandler);
+/*
 //catches ctrl+c event
 process.on('SIGINT', exitHandler.bind(null, { server: userinfoServer, exit: true }));
 // catches "kill pid" (for example: nodemon restart)
@@ -55,6 +55,7 @@ process.on('SIGUSR1', exitHandler.bind(null, { server: userinfoServer, exit: tru
 process.on('SIGUSR2', exitHandler.bind(null, { server: userinfoServer, exit: true }));
 //catches uncaught exceptions
 process.on('uncaughtException', exitHandler.bind(null, { server: userinfoServer, exit: true }));
+*/
 
 function addProvider(providers: AttributeProvider[], provider: AttributeProvider | undefined, providerName: string) {
     if (!provider) {
