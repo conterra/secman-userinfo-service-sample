@@ -43,10 +43,6 @@ export class LDAPAttributeProvider implements AttributeProvider {
     } | undefined = undefined
 
     constructor(options: LDAPAttributeProviderOptions) {
-        this.ldapClient = createClient({
-            url: options.url,
-            reconnect: true
-        });
         if (options.user && options.password) {
             this.bindOptions = {
                 user: options.user,
@@ -60,21 +56,27 @@ export class LDAPAttributeProvider implements AttributeProvider {
             attributes: options.userAttributes ?? ["cn", "sn"]
         };
         const errListener = (err: any) => {
-            console.error(`Error in ldap client.`, err);
             if (err.code === "ECONNRESET") {
                 console.warn(`Error is ECONNRESET, full restart the ldap client.`);
                 const oldClient = this.ldapClient;
+                oldClient?.off("error", errListener);
+                oldClient?.destroy();
                 this.ldapClient = createClient({
                     url: options.url,
                     reconnect: true
                 });
-                oldClient?.off("error", errListener);
-                oldClient?.destroy();
+                this.ldapClient.on("error", errListener);
+            } else {
+                console.error(`Unexpected error in ldap client.`, err);
             }
             // always reset binding state
             this.binded = false;
             this.binding = undefined;
         };
+        this.ldapClient = createClient({
+            url: options.url,
+            reconnect: true
+        });
         this.ldapClient.on("error", errListener);
     }
 

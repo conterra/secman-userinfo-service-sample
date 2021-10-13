@@ -35,42 +35,44 @@ export class UserInfoServer {
         const contextBasePath = `/${escapeRegExp(this.contextPath)}`;
         const allowedContextPostFix = this.providers.map(p => escapeRegExp(p.name)).join("|");
         const pathExpression = new RegExp(`^${contextBasePath}\\-(?<provider>${allowedContextPostFix})/fetch$`);
-
         return http.createServer(async (request, response) => {
-            const match = pathExpression.exec(request.url || "");
-            if (!match) {
-                this.writeError(response, 404, `Endpoint not found: ${request.url}`);
-                return;
-            }
-
-            if (request.method !== "POST") {
-                this.writeError(response, 405, "Method not allowed. Use POST instead.");
-                return;
-            }
-
-            if (this.accessToken && request.headers["authorization"] !== `Bearer ${this.accessToken}`) {
-                response.writeHead(401, {
-                    "Content-Type": "application/json",
-                    "WWW-Authenticate": "Bearer"
-                });
-                response.end(JSON.stringify({ error: "Token required" }));
-                return;
-            }
-
-            if (!request.headers["content-type"]?.startsWith("application/json")) {
-                this.writeError(response, 415, "Endpoint only consumes 'application/json'");
-                return;
-            }
-
             try {
-                const userInfo = await this.parseUserInfoFromRequest(request);
-                const additionalData = await this.fetchAttributes(userInfo, match.groups!["provider"]);
-                this.writeReponse(response, 200, { data: additionalData ?? /* no additional info if undefined */{} });
+                const match = pathExpression.exec(request.url || "");
+                if (!match) {
+                    this.writeError(response, 404, `Endpoint not found: ${request.url}`);
+                    return;
+                }
+
+                if (request.method !== "POST") {
+                    this.writeError(response, 405, "Method not allowed. Use POST instead.");
+                    return;
+                }
+
+                if (this.accessToken && request.headers["authorization"] !== `Bearer ${this.accessToken}`) {
+                    response.writeHead(401, {
+                        "Content-Type": "application/json",
+                        "WWW-Authenticate": "Bearer"
+                    });
+                    response.end(JSON.stringify({ error: "Token required" }));
+                    return;
+                }
+
+                if (!request.headers["content-type"]?.startsWith("application/json")) {
+                    this.writeError(response, 415, "Endpoint only consumes 'application/json'");
+                    return;
+                }
+
+                try {
+                    const userInfo = await this.parseUserInfoFromRequest(request);
+                    const additionalData = await this.fetchAttributes(userInfo, match.groups!["provider"]);
+                    this.writeReponse(response, 200, { data: additionalData ?? {} });
+                } catch (e) {
+                    this.writeError(response, 500, e.message);
+                }
             } catch (e) {
-                this.writeError(response, 500, e.message);
+                console.error("Unexpected unhandled error.", e);
             }
         });
-
     }
 
     private async fetchAttributes(userInfo: UserInfo, providerName: string): Promise<AdditionalAttributes | undefined> {
