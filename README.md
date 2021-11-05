@@ -1,25 +1,25 @@
 # security.manager UserInfoService Sample Implementation
 
-This project is a sample implementation of the UserInfoService interface defined by security.manager NEXT.
-Please visit the [UserInfoService documentation](https://docs.conterra.de/en/securitymanager-next/latest/reference/extensions/userinfoservice.html) for further details.
+This project is a sample implementation of the User Information Service interface defined by security.manager NEXT.
+Please visit the [User Information Service documentation](https://docs.conterra.de/en/securitymanager-next/latest/reference/extensions/userinfoservice.html) for further details.
 
-The project shows two different attribute lookup approaches:
+The project demonstrates two different attribute lookup approaches:
 
-   1. Mapping of roles or user ids to additional attributes via a mapping.json file
+   1. Mapping of roles or user IDs to additional attributes based on a `mapping.json` file
       - Implemented by [JSONAttributeProvider](./src/jsonmapping/JSONAttributeProvider.ts)
       - Default URL: <https://localhost:9090/userinfo-json/fetch>
-      - Uses [conf/mapping.json](./resources/mapping.json) to map user ids or roles to user attributes
+      - Uses [`conf/mapping.json`](./resources/mapping.json) to map user IDs or roles to user attributes
 
-   2. Connect to a LDAP in order to lookup the attributes of a given user id
+   2. Connect to a LDAP in order to lookup the attributes for a given user ID
       - Implemented by [LDAPAttributeProvider](./src/ldap/LDAPAttributeProvider.ts)
       - Default URL: <https://localhost:9090/userinfo-ldap/fetch>
-      - Uses [conf/ldap.json](./resources/ldap.json) to connect to a ldap to fetch user attributes
+      - Uses [`conf/ldap.json`](./resources/ldap.json) to connect to an LDAP and fetch all user attributes
 
 ## Example Requests
 
 ### JSON mapping
 
-POST the following content to the service at `/userinfo-json/fetch` in order to test the json mapping:
+POST the following content to the service at `/userinfo-json/fetch` in order to test the JSON mapping:
 
 ```json
 POST as "application/json":
@@ -30,7 +30,7 @@ POST as "application/json":
 }
 ```
 
-You should get back something like:
+This should return something like:
 
 ```json
 {
@@ -50,7 +50,7 @@ You should get back something like:
 
 POST the following content to the service at `/userinfo-ldap/fetch` in order to test LDAP.
 
-Replace the value of the property `userId` by a valid ldap user.
+Replace the value of the property `userId` by a valid LDAP user.
 
 ```json
 POST as "application/json":
@@ -61,7 +61,7 @@ POST as "application/json":
 }
 ```
 
-You should get back something like:
+This should return something like:
 
 ```json
 {
@@ -75,17 +75,17 @@ You should get back something like:
 }
 ```
 
-## Configure
+## Configuration
 
 ### mapping.json
 
-The json mapping can be configured in [conf/mapping.json](./resources/mapping.json).
+The JSON mapping can be configured in [`conf/mapping.json`](./resources/mapping.json).
 
 It is possible to configure mappings for users and roles.
 
-It takes following precedence:
+Mappings are applied under these rules:
 
-- A user id mapping will win over roles
+- A user ID mapping will win over roles
 - The first role mapping matching a given role will be used
 
 The structure of the file is like:
@@ -124,9 +124,7 @@ The structure of the file is like:
 
 ### ldap.json
 
-The ldap configuration can be done in [conf/ldap.json](./resources/ldap.json).
-
-The user and password can be provided by the environment properties `LDAP_USER` and `LDAP_PW`.
+The LDAP configuration has to be done in [`conf/ldap.json`](./resources/ldap.json).
 
 The structure of the file is like:
 
@@ -159,9 +157,11 @@ The structure of the file is like:
 }
 ```
 
+The user and password can alternatively be provided by the environment variables `LDAP_USER` and `LDAP_PW`.
+
 ### Access Token (optional)
 
-If the environment property `ACCESS_TOKEN` is defined during start of the service then a client needs to send the http header 'Authorization' in order to access the service endpoints.
+If the environment variable `ACCESS_TOKEN` is defined during start of the service then a client needs to send the HTTP header 'Authorization' in order to access the service endpoints.
 
 ```plain
 Authorization: Bearer <access-token>
@@ -185,7 +185,7 @@ cd dist
 node ./index.js
 ```
 
-By default, the locally started server will be available at <http://localhost:9090/userinfo-json/fetch> and <http://localhost:9090/userinfo-ldap/fetch>.
+By default, the locally started server is available at <http://localhost:9090/userinfo-json/fetch> and <http://localhost:9090/userinfo-ldap/fetch>.
 
 ## Docker
 
