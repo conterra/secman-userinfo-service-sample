@@ -1,4 +1,4 @@
-# security.manager UserInfoService Sample Implementation
+# security.manager User Informations Service sample implementation
 
 This project is a sample implementation of the User Information Service interface defined by security.manager NEXT.
 Please visit the [User Information Service documentation](https://docs.conterra.de/en/securitymanager-next/latest/reference/extensions/userinfoservice.html) for further details.
@@ -15,7 +15,7 @@ The project demonstrates two different attribute lookup approaches:
       - Default URL: <https://localhost:9090/userinfo-ldap/fetch>
       - Uses [`conf/ldap.json`](./resources/ldap.json) to connect to an LDAP and fetch all user attributes
 
-## Example Requests
+## Example requests
 
 ### JSON mapping
 
@@ -159,7 +159,7 @@ The structure of the file is like:
 
 The user and password can alternatively be provided by the environment variables `LDAP_USER` and `LDAP_PW`.
 
-### Access Token (optional)
+### Access token (optional)
 
 If the environment variable `ACCESS_TOKEN` is defined during start of the service then a client needs to send the HTTP header 'Authorization' in order to access the service endpoints.
 
@@ -167,7 +167,7 @@ If the environment variable `ACCESS_TOKEN` is defined during start of the servic
 Authorization: Bearer <access-token>
 ```
 
-## Build and Run
+## Build and run
 
 Execute a build as follows:
 
