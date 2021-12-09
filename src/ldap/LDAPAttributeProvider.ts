@@ -186,11 +186,16 @@ export class LDAPAttributeProvider implements AttributeProvider {
                 if (Array.isArray(value)) {
                     roles = value.map(this.convertDNRoleToSimpleRoleName);
                 } else {
-                    roles = [value];
+                    roles = [this.convertDNRoleToSimpleRoleName(value)];
                 }
                 acc["roles"] = roles;
                 return acc;
             }
+            if (key === "roles") {
+                // ignore eventual existing attribute with name "roles"
+                return acc;
+            }
+
             // cleanup booleans
             if (value === 'TRUE') {
                 value = true;
